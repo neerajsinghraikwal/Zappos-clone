@@ -13,16 +13,15 @@ import {
   Text,
 } from "@chakra-ui/react";
 import {ChevronDownIcon} from '@chakra-ui/icons'
-import React from "react";
+import React, { useState } from "react";
 
 const Navbar = () => {
+  const [isAuth,setIsAuth]=useState(false)
   return (
     <>
       <Flex
         w="100%"
         h="100px"
-        border="1px"
-        borderColor="black"
         alignItems="center"
       >
         <Image
@@ -43,8 +42,7 @@ const Navbar = () => {
           mr="40px"
           bgColor="white"
           color="gray"
-          hover={{ bgColor: "green.500" }}
-          bgImage
+          _hover={{ bgColor: "green.500", color:"white" }}
         >
           <Image /> My Cart
         </Button>
@@ -52,13 +50,12 @@ const Navbar = () => {
       <Flex
         w="100%"
         h="40px"
-        border="1px"
-        borderColor="black"
         alignItems="center"
+        bgColor='whitesmoke'
       >
         <Menu>
-          <MenuButton as={Box} rightIcon={<ChevronDownIcon/>}>
-            Actions
+          <MenuButton fontSize='16px' _hover={{bgColor:'white'}} w='70px' p='0px' bgColor='whitesmoke' h='100%' fontWeight='500' >
+            New <ChevronDownIcon/>
           </MenuButton>
           <MenuList>
             <Flex>
@@ -80,6 +77,188 @@ const Navbar = () => {
             </Flex>
           </MenuList>
         </Menu>
+        <Menu>
+          <MenuButton fontSize='16px' _hover={{bgColor:'white'}} w='90px' p='0px' bgColor='whitesmoke' h='100%' fontWeight='500' >
+            Women<ChevronDownIcon/>
+          </MenuButton>
+          <MenuList>
+            <Flex>
+              <Stack spacing='0px' fontSize='15px'>
+                <MenuItem>The Style Room</MenuItem>
+                <MenuItem>Free People: Nostalgic Bohemia</MenuItem>
+                <MenuItem>Create a Copy</MenuItem>
+                <MenuItem>Mark as Draft</MenuItem>
+                <MenuItem>Delete</MenuItem>
+                <MenuItem>Attend a Workshop</MenuItem>
+              </Stack>
+              <Stack>
+                <MenuItem>Download</MenuItem>
+                <MenuItem>Create a Copy</MenuItem>
+                <MenuItem>Mark as Draft</MenuItem>
+                <MenuItem>Delete</MenuItem>
+                <MenuItem>Attend a Workshop</MenuItem>
+              </Stack>
+            </Flex>
+          </MenuList>
+        </Menu>
+        <Menu>
+          <MenuButton fontSize='16px' _hover={{bgColor:'white'}} w='70px' p='0px' bgColor='whitesmoke' h='100%' fontWeight='500' >
+            Men <ChevronDownIcon/>
+          </MenuButton>
+          <MenuList>
+            <Flex>
+              <Stack spacing='0px' fontSize='15px'>
+                <MenuItem>The Style Room</MenuItem>
+                <MenuItem>Free People: Nostalgic Bohemia</MenuItem>
+                <MenuItem>Create a Copy</MenuItem>
+                <MenuItem>Mark as Draft</MenuItem>
+                <MenuItem>Delete</MenuItem>
+                <MenuItem>Attend a Workshop</MenuItem>
+              </Stack>
+              <Stack>
+                <MenuItem>Download</MenuItem>
+                <MenuItem>Create a Copy</MenuItem>
+                <MenuItem>Mark as Draft</MenuItem>
+                <MenuItem>Delete</MenuItem>
+                <MenuItem>Attend a Workshop</MenuItem>
+              </Stack>
+            </Flex>
+          </MenuList>
+        </Menu>
+        <Menu>
+          <MenuButton fontSize='16px' _hover={{bgColor:'white'}} w='70px' p='0px' bgColor='whitesmoke' h='100%' fontWeight='500' >
+            Kids <ChevronDownIcon/>
+          </MenuButton>
+          <MenuList>
+            <Flex>
+              <Stack spacing='0px' fontSize='15px'>
+                <MenuItem>The Style Room</MenuItem>
+                <MenuItem>Free People: Nostalgic Bohemia</MenuItem>
+                <MenuItem>Create a Copy</MenuItem>
+                <MenuItem>Mark as Draft</MenuItem>
+                <MenuItem>Delete</MenuItem>
+                <MenuItem>Attend a Workshop</MenuItem>
+              </Stack>
+              <Stack>
+                <MenuItem>Download</MenuItem>
+                <MenuItem>Create a Copy</MenuItem>
+                <MenuItem>Mark as Draft</MenuItem>
+                <MenuItem>Delete</MenuItem>
+                <MenuItem>Attend a Workshop</MenuItem>
+              </Stack>
+            </Flex>
+          </MenuList>
+        </Menu>
+        <Menu>
+          <MenuButton fontSize='16px' _hover={{bgColor:'white'}} w='120px' p='0px' bgColor='whitesmoke' h='100%' fontWeight='500' >
+            Departments<ChevronDownIcon/>
+          </MenuButton>
+          <MenuList>
+            <Flex>
+              <Stack spacing='0px' fontSize='15px'>
+                <MenuItem>The Style Room</MenuItem>
+                <MenuItem>Free People: Nostalgic Bohemia</MenuItem>
+                <MenuItem>Create a Copy</MenuItem>
+                <MenuItem>Mark as Draft</MenuItem>
+                <MenuItem>Delete</MenuItem>
+                <MenuItem>Attend a Workshop</MenuItem>
+              </Stack>
+              <Stack>
+                <MenuItem>Download</MenuItem>
+                <MenuItem>Create a Copy</MenuItem>
+                <MenuItem>Mark as Draft</MenuItem>
+                <MenuItem>Delete</MenuItem>
+                <MenuItem>Attend a Workshop</MenuItem>
+              </Stack>
+            </Flex>
+          </MenuList>
+        </Menu>
+        <Menu>
+          <MenuButton fontSize='16px' _hover={{bgColor:'white'}} w='90px' p='0px' bgColor='whitesmoke' h='100%' fontWeight='500'>
+            Brands <ChevronDownIcon/>
+          </MenuButton>
+          <MenuList>
+            <Flex>
+              <Stack spacing='0px' fontSize='15px'>
+                <MenuItem>The Style Room</MenuItem>
+                <MenuItem>Free People: Nostalgic Bohemia</MenuItem>
+                <MenuItem>Create a Copy</MenuItem>
+                <MenuItem>Mark as Draft</MenuItem>
+                <MenuItem>Delete</MenuItem>
+                <MenuItem>Attend a Workshop</MenuItem>
+              </Stack>
+              <Stack>
+                <MenuItem>Download</MenuItem>
+                <MenuItem>Create a Copy</MenuItem>
+                <MenuItem>Mark as Draft</MenuItem>
+                <MenuItem>Delete</MenuItem>
+                <MenuItem>Attend a Workshop</MenuItem>
+              </Stack>
+            </Flex>
+          </MenuList>
+        </Menu>
+        <Menu>
+          <MenuButton fontSize='16px' _hover={{bgColor:'white'}} w='70px' p='0px' bgColor='whitesmoke' h='100%' fontWeight='500' >
+            Sale <ChevronDownIcon/>
+          </MenuButton>
+          <MenuList>
+            <Flex>
+              <Stack spacing='0px' fontSize='15px'>
+                <MenuItem>The Style Room</MenuItem>
+                <MenuItem>Free People: Nostalgic Bohemia</MenuItem>
+                <MenuItem>Create a Copy</MenuItem>
+                <MenuItem>Mark as Draft</MenuItem>
+                <MenuItem>Delete</MenuItem>
+                <MenuItem>Attend a Workshop</MenuItem>
+              </Stack>
+              <Stack>
+                <MenuItem>Download</MenuItem>
+                <MenuItem>Create a Copy</MenuItem>
+                <MenuItem>Mark as Draft</MenuItem>
+                <MenuItem>Delete</MenuItem>
+                <MenuItem>Attend a Workshop</MenuItem>
+              </Stack>
+            </Flex>
+          </MenuList>
+        </Menu>
+        <Menu>
+          <MenuButton fontSize='16px' _hover={{bgColor:'white'}} w='90px' p='0px' bgColor='whitesmoke' h='100%' fontWeight='500'  >
+            Clothing<ChevronDownIcon/>
+          </MenuButton>
+          <MenuList>
+            <Flex>
+              <Stack spacing='0px' fontSize='15px'>
+                <MenuItem>The Style Room</MenuItem>
+                <MenuItem>Free People: Nostalgic Bohemia</MenuItem>
+                <MenuItem>Create a Copy</MenuItem>
+                <MenuItem>Mark as Draft</MenuItem>
+                <MenuItem>Delete</MenuItem>
+                <MenuItem>Attend a Workshop</MenuItem>
+              </Stack>
+              <Stack>
+                <MenuItem>Download</MenuItem>
+                <MenuItem>Create a Copy</MenuItem>
+                <MenuItem>Mark as Draft</MenuItem>
+                <MenuItem>Delete</MenuItem>
+                <MenuItem>Attend a Workshop</MenuItem>
+              </Stack>
+            </Flex>
+          </MenuList>
+        </Menu>
+        <Spacer></Spacer>
+        <Box mr='30px' >{isAuth ? <Menu >
+          <MenuButton fontSize='16px' _hover={{bgColor:'white'}} w='90px' p='0px' bgColor='whitesmoke' h='100%' fontWeight='500' >
+            Clothing<ChevronDownIcon/>
+          </MenuButton>
+          <MenuList>
+                <MenuItem>The Style Room</MenuItem>
+                <MenuItem>Free People: Nostalgic Bohemia</MenuItem>
+                <MenuItem>Create a Copy</MenuItem>
+                <MenuItem>Mark as Draft</MenuItem>
+                <MenuItem>Delete</MenuItem>
+                <MenuItem>Attend a Workshop</MenuItem>
+          </MenuList>
+        </Menu> : <Text fontSize='20px'>SignIn / Register</Text>}</Box>
       </Flex>
     </>
   );

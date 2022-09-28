@@ -194,6 +194,7 @@ const Home = () => {
               w="250px"
               fontSize="17px"
               p="20px"
+              _hover={{ bgColor:'black' ,color:'white'}}
             >
               SHOP NEW SOREL FOOTWEAR
             </Button>
@@ -226,6 +227,7 @@ const Home = () => {
               fontSize="15px"
               w="280px"
               p="10px"
+              _hover={{ bgColor:'black' ,color:'white'}}
             >
               SHOP NEW BIRKENSTOCK STYLES
             </Button>
