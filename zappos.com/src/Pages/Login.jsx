@@ -32,6 +32,7 @@ const Login = () => {
       let filter = userData.filter(function (elem) {
         return elem.email === email && elem.password === password;
       });
+      console.log(filter)
       if (filter.length > 0) {
         return true;
       } else {

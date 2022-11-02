@@ -23,13 +23,26 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
+import { CartContext } from "../Context/CartContextProvider";
+import { useEffect } from "react";
 
 const Navbar = () => {
   const [isAuth, setIsAuth] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [count,setCount] = useState(0);
+  const {Totalitems} = useContext(CartContext);
+  // let total=0;
+  // function getItems(){
+  //   let cartItems =JSON.parse(localStorage.getItem('ItemsInCart'));
+  //    total = cartItems.length;
+  //   setCount(count+1)
+  // }
 
+
+  
+// console.log("cart",cartItems);
   return (
     <>
       <Flex w="100%" h="100px" alignItems="center">
@@ -55,9 +68,10 @@ const Navbar = () => {
             mr="40px"
             bgColor="white"
             color="gray"
+            colorScheme='white'
             _hover={{ bgColor: "green.500", color: "white" }}
           >
-            <Image /> My Cart
+            <Image />{Totalitems>0 ? `${Totalitems} items in cart`: "My Cart"}
           </Button>
         </Link>
       </Flex>
