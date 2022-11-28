@@ -24,22 +24,27 @@ import {
 } from "@chakra-ui/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import React, { useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate, redirect, useNavigate } from "react-router-dom";
 import { CartContext } from "../Context/CartContextProvider";
 import { useEffect } from "react";
+import axios from "axios";
 
 const Navbar = () => {
   const [isAuth, setIsAuth] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [count,setCount] = useState(0);
   const {Totalitems} = useContext(CartContext);
+  const navigate = useNavigate()
   // let total=0;
   // function getItems(){
   //   let cartItems =JSON.parse(localStorage.getItem('ItemsInCart'));
   //    total = cartItems.length;
   //   setCount(count+1)
   // }
-
+  
+  const handleGoogleSignin = () => {
+    window.open("http://localhost:8000/auth/google")
+  }
 
   
 // console.log("cart",cartItems);
@@ -411,6 +416,7 @@ const Navbar = () => {
                           border="2px"
                           _hover={{ bgColor: "blue.500", color: "white" }}
                           borderRadius="5px"
+                          onClick={handleGoogleSignin}
                         >
                           SIGN IN WITH GOOGLE
                         </Button>

@@ -1,3 +1,7 @@
+*{
+    padding: 0px;
+    margin: 0px;
+}
 .image:hover{
     transform: scale(1.3);
     transition: transform 2s;

@@ -29,14 +29,13 @@ const Cart = () => {
 
   const handleQuantity = (id,changedvalue) => {
     console.log("changedvalue",changedvalue)
-    cartItemDetails.map((el,index)=>{
-      if(el.id === id) {
-        setCount(count+1)
-        cartItemDetails[index].quantity=changedvalue;
-        localStorage.setItem('ItemsInCart',JSON.stringify(cartItemDetails))
-        console.log(cartItemDetails)
-      }
-    })
+    cartItemDetails?.map((el,index)=>
+      el.id === id ?
+        (setCount(count+1),
+        cartItemDetails[index].quantity=changedvalue,
+        localStorage.setItem('ItemsInCart',JSON.stringify(cartItemDetails)),
+        console.log(cartItemDetails)) : (setCount(0)) 
+    )
   }
 
   const handleDelete = (id) => {

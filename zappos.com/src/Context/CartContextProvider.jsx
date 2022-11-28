@@ -9,8 +9,8 @@ const CartContextProvider = ({ children }) => {
   const cartItems = JSON.parse(localStorage.getItem('ItemsInCart'));
    const [details,setDetails] = useState(cartItems)
   //  const [count,setCount] = useState(0)
-  console.log(cartItems.length)
-   const [Totalitems,setTotalItems] = useState(cartItems.length)
+  // console.log(cartItems.length)
+   const [Totalitems,setTotalItems] = useState(cartItems)
   
 
   return (

@@ -18,6 +18,7 @@ const AllRoutes = () => {
             <Route path='/cart' element={<Cart />}></Route>
             <Route path='/products' element={<Products/>}></Route>
             <Route path='/products/:id' element={<SinglePageProduct/>}></Route>
+            {/* <Route path='/auth/google' element={</>} ></Route> */}
         </Routes>
         }
     </div>
