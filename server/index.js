@@ -6,43 +6,47 @@ const app = express();
 const cors = require("cors");
 const passport = require("./google_auth");
 const argon2 = require("argon2");
+// const dotenv = require("/dotenv");
 // const GoogleStrategy = require('passport-google-oauth20').Strategy;
-// const passport = require('passport')
+const passport = require('passport')
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
 
-// const GOOGLE_CLIENT_ID = "637888779417-4qjfftmvp10jj7ob6l30gujh5mv3sahl.apps.googleusercontent.com"
-// const GOOGLE_CLIENT_SECRET = "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"
-
-// passport.use(new GoogleStrategy({
-//     clientID: GOOGLE_CLIENT_ID,
-//     clientSecret: GOOGLE_CLIENT_SECRET,
-//     callbackURL: "http://localhost:8000/auth/google/callback"
-//   },
-//   function(accessToken, refreshToken, profile, cb) {
-//     // User.findOrCreate({ googleId: profile.id }, function (err, user) {
-//     //   return cb(err, user);
-//     // });
-//     console.log(profile)
-//   }
-// ));
-
 app.get("/", (req, res) => res.send("hello"));
 
 app.post("/register", async (req, res) => {
   const { name, email, password } = req.body;
-
   const hash = await argon2.hash(password)
+  const token = req.headers["authorization"];
   try {
-    const user = new UserModel({ name, email, password });
-    await user.save();
-    return res.status(201).send("User created successfully");
-  } catch (e) {
-    return res.send("email already exist");
+    if (token) {
+      const decoded = jwt.decode(token);
+      console.log(decoded)
+      if (decoded && decoded.role === "admin") {
+        const user = new UserModel({
+          name,
+          email,
+          password,
+          role: "seller",
+        });
+        await user.save();
+        return res.status(201).send("Seller created successfully");
+      } else {
+        return res.status(403).send("You are not allowed to create seller");
+      }
+    } else {
+      const user = new UserModel({ name, email, password });
+      await user.save();
+      return res.status(201).send("User created successfully");
+    }
+  } catch (err) {
+    console.log(err);
   }
 });
+
+
 
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
@@ -52,7 +56,7 @@ app.post("/login", async (req, res) => {
     const token = jwt.sign(
       { id: user._id, name: user.name, age: user.age },
       "SECRET1234",
-      { expiresIn: "2 min" }
+      { expiresIn: "7 days" }
     );
     const refreshToken = jwt.sign({ id: user._id }, "REFRESHSECRET", {
       expiresIn: "28 days",
@@ -61,6 +65,9 @@ app.post("/login", async (req, res) => {
   }
   return res.send("Invalid Credentials");
 });
+
+
+
 
 app.post("/refresh", async (req, res) => {
   const refreshToken = req.headers["authorization"];
