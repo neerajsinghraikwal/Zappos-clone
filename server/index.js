@@ -6,24 +6,36 @@ const app = express();
 const cors = require("cors");
 const passport = require("./google_auth");
 const argon2 = require("argon2");
+const nodemailer = require("nodemailer");
 // const dotenv = require("/dotenv");
 // const GoogleStrategy = require('passport-google-oauth20').Strategy;
-const passport = require('passport')
+// const passport = require("passport");
+const OtpModel = require("./models/otp.model");
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
 
+const transport = nodemailer.createTransport({
+  host: "smtp.gmail.com.",
+  port: 465,
+  auth: {
+    user: "nsrneerajsingh2721@gmail.com",
+    pass: "jyxqfpmszbvmihfe",
+    // "crmnsspvobyqsgjm",
+  },
+});
+
 app.get("/", (req, res) => res.send("hello"));
 
 app.post("/register", async (req, res) => {
   const { name, email, password } = req.body;
-  const hash = await argon2.hash(password)
+  const hash = await argon2.hash(password);
   const token = req.headers["authorization"];
   try {
     if (token) {
       const decoded = jwt.decode(token);
-      console.log(decoded)
+      console.log(decoded);
       if (decoded && decoded.role === "admin") {
         const user = new UserModel({
           name,
@@ -37,14 +49,85 @@ app.post("/register", async (req, res) => {
         return res.status(403).send("You are not allowed to create seller");
       }
     } else {
-      const user = new UserModel({ name, email, password });
-      await user.save();
-      return res.status(201).send("User created successfully");
+      const alreadyEmail = await UserModel.findOne({ email });
+      if (alreadyEmail) {
+        return res.status(401).send("Email already exist");
+      } else {
+        const user = new UserModel({ name, email, password });
+        await user.save();
+        // let otp = Math.random().toFixed(6)*1000000
+        transport
+        .sendMail({
+            to: email,
+            subject: "Signup",
+            text: "Your Signup is successful",
+          })
+          .then(() => {
+            console.log("Email sent successfully");
+          });
+        return res.status(201).send("User created successfully");
+      }
     }
   } catch (err) {
     console.log(err);
   }
 });
+
+
+
+app.post("/forgotpassword/enteremail",async(req,res)=> {
+  const { email } = req.body;
+  const emailExist = await UserModel.findOne({ email });
+  const otp = Math.random().toFixed(6)*1000000
+  if(emailExist){
+    const checkEmail = await OtpModel.findOne({email})
+    if(checkEmail){
+      let otpUser = await OtpModel.updateOne({email},{$set: {Otp: otp}})
+      transport
+          .sendMail({
+              to: email,
+              subject: "Signup",
+              text: `Your Otp is ${otp}` ,
+            })
+            .then(() => {
+              console.log("Email sent successfully");
+            });
+            return res.status(201).send("Otp send successfully");
+    }else{
+      let otpUser = new OtpModel({email,Otp: otp})
+      await otpUser.save();
+      transport
+          .sendMail({
+              to: email,
+              subject: "Signup",
+              text: `Your Otp is ${otp}` ,
+            }) 
+            .then(() => {
+              console.log("Email sent successfully");
+            });
+            return res.status(201).send("Otp send successfully");
+    }
+  }else{
+    return res.status(401).send("Email not exist");
+  }
+})
+
+
+app.post("/verifyotp", async(req,res) => {
+  const {email,password,Otp:otp} = req.body;
+  console.log(req.body.Otp)
+  const identifyUser = await OtpModel.findOne({$and: [{email},{Otp: req.body.Otp}]})
+  console.log("identify",identifyUser)
+  if(identifyUser){
+    let user = await UserModel.updateOne({email},{$set: {password}})
+    let deleteOtp = await OtpModel.deleteOne({$and: [{email},{Otp:req.body.Otp}]})
+    console.log("delete",deleteOtp)
+    return res.status(200).send("Otp is correct")
+  }else{
+    return res.status(401).send("Otp is incorrect")
+  }
+})
+
 
 
 
@@ -65,9 +148,6 @@ app.post("/login", async (req, res) => {
   }
   return res.send("Invalid Credentials");
 });
-
-
-
 
 app.post("/refresh", async (req, res) => {
   const refreshToken = req.headers["authorization"];
@@ -99,7 +179,11 @@ app.get(
 
 app.get(
   "/auth/google/callback",
-  passport.authenticate("google", { successRedirect:"http://localhost:3000/", failureRedirect: "/login", session:false }),
+  passport.authenticate("google", {
+    successRedirect: "http://localhost:3000/",
+    failureRedirect: "/login",
+    session: false,
+  })
 );
 
 app.get("/user/:id", async (req, res) => {
@@ -121,7 +205,6 @@ app.get("/user/:id", async (req, res) => {
     return res.send("invalid token");
   }
 });
-
 
 // instructor
 // app.post("/signup/instructor", async (req, res) => {
@@ -146,10 +229,6 @@ app.get("/user/:id", async (req, res) => {
 //     return res.send(err);
 //   }
 // })
-
-
-
-
 
 mongoose.connect("mongodb://127.0.0.1:27017/zippos").then(() => {
   app.listen(8000, () => {

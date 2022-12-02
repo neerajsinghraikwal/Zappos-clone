@@ -2,6 +2,10 @@ const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const passport = require("passport");
 const { v4: uuidv4 } = require("uuid");
 const UserModel = require("./models/user.model");
+let dotenv = require("dotenv");
+dotenv.config()
+
+
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
 
