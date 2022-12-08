@@ -20,15 +20,14 @@ passport.use(
       let email = profile._json.email;
       const person = await UserModel.findOne({ email });
       if (person) {
-        return cb(null, profile);
+        return cb(null, profile,accessToken,refreshToken);
       } else {
         const user = new UserModel({
           email,
           password: uuidv4(),
         });
-        // console.log(profile);
         await user.save();
-        return cb(null, user);
+        return cb(null, user,accessToken,refreshToken);
       }
     }
   )

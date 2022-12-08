@@ -43,7 +43,7 @@ const Navbar = () => {
   // }
   
   const handleGoogleSignin = () => {
-    window.open("http://localhost:8000/auth/google")
+    window.open("http://localhost:8000/auth/google","_self")
   }
 
   
