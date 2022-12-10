@@ -3,7 +3,7 @@ import React from 'react'
 import Home from '../Pages/Home'
 import Login from '../Pages/Login'
 import Cart from '../Pages/Cart'
-import Products from '../Pages/Products'
+import Products from '../Pages/AllProducts'
 import SinglePageProduct from '../Pages/SinglePageProduct'
 import Register from '../Pages/Register'
 
@@ -18,6 +18,7 @@ const AllRoutes = () => {
             <Route path='/cart' element={<Cart />}></Route>
             <Route path='/products' element={<Products/>}></Route>
             <Route path='/products/:id' element={<SinglePageProduct/>}></Route>
+            {/* <Route path='/auth/google' element={</>} ></Route> */}
         </Routes>
         }
     </div>

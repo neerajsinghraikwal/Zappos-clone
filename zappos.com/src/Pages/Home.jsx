@@ -2,7 +2,6 @@ import {
   Box,
   Button,
   Center,
-  Container,
   Flex,
   Grid,
   GridItem,
@@ -18,7 +17,7 @@ const Home = () => {
   return (
     <>
       <Navbar />
-      <Box w="100%" h="5000px">
+      <Box w={["100%","100%","100%"]} h="5000px" border="1px" >
         <Center w="100%" mt="30px">
           <Image src="https://m.media-amazon.com/images/G/01/2022/homepage9.26/COOP-FALL-CAMPAGIN-WOMENS-STEVE-MADDEN-HERO-1440x700.jpg"></Image>
         </Center>
@@ -191,7 +190,7 @@ const Home = () => {
               className="footbtn"
               mt="0px"
               h="40px"
-              w="250px"
+              w="10%"
               fontSize="17px"
               p="20px"
               _hover={{ bgColor:'black' ,color:'white'}}
@@ -225,7 +224,7 @@ const Home = () => {
               mt="20px"
               h="40px"
               fontSize="15px"
-              w="280px"
+              w="10%"
               p="10px"
               _hover={{ bgColor:'black' ,color:'white'}}
             >
@@ -257,7 +256,7 @@ const Home = () => {
               mt="20px"
               h="40px"
               fontSize="15px"
-              w="280px"
+              w="25%"
               p="10px"
             >
               SHOP FREE PEOPLE

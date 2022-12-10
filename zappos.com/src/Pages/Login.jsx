@@ -1,7 +1,8 @@
-import { Button, Center, FormControl, FormLabel, Image, Input, Stack, Text } from '@chakra-ui/react';
+import { Button, Center, FormControl, FormLabel, Image, Input, Stack, Text, useToast } from '@chakra-ui/react';
+import axios from 'axios';
 import React from 'react'
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 
@@ -11,38 +12,34 @@ let initial = {
   };
 const Login = () => {
     const [user,setuser] =useState(initial)
+    const navigate = useNavigate()
+    const toast = useToast()
 
-    let userData = JSON.parse(localStorage.getItem("userData")) || [];
-
-    function myfun(event) {
-      let data = {
-        email: user.email,
-        password: user.password,
-      };
-      if (checklogin(data.email, data.password) === true) {
-        localStorage.setItem("login", JSON.stringify(data));
-        alert("Login successful");
-  
-        // window.location.href = "index.html";
-      } else {
-        alert("Wrong Email or Password");
-      }
-    }
-    function checklogin(email, password) {
-      let filter = userData.filter(function (elem) {
-        return elem.email === email && elem.password === password;
-      });
-      console.log(filter)
-      if (filter.length > 0) {
-        return true;
-      } else {
-        return false;
+    const myfun = async() => {
+      try{
+        let res =  await axios.post("http://localhost:8000/auth/login", user);
+        if(res.data === "Invalid Credentials"){
+          return (
+                toast({
+                  title: "Login Failed !",
+                  description: res.data,
+                  status: 'error',
+                  duration: 2000,
+                  isClosable: true,
+                  position: 'top',
+                })
+          )
+        }else{
+          navigate("/")
+        }
+        console.log(res.data) 
+      }catch(err){
+        console.log(err)
       }
     }
   
     const handle = (event) => {
-      // event.preventDefault();
-      const { value, name } = event.target;
+      const { name, value } = event.target;
       setuser({
         ...user,
         [name]: value,
@@ -69,7 +66,7 @@ const Login = () => {
               <FormLabel>Password</FormLabel>
               <Input placeholder="" value={password} name='password' onChange={handle}/>
             </FormControl>
-            <Button fontSize='17px' onClick={myfun}>CREATE YOUR ZAPPOS ACCOUNT</Button>
+            <Button fontSize='17px' onClick={myfun}>LOGIN</Button>
           </Stack>
         </div>
     );
