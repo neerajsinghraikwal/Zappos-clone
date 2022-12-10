@@ -8,6 +8,7 @@ const passport = require("./google_auth");
 const argon2 = require("argon2");
 const nodemailer = require("nodemailer");
 require("dotenv").config();
+const connect = require("./configs/db");
 // const GoogleStrategy = require('passport-google-oauth20').Strategy;
 // const passport = require("passport");
 const OtpModel = require("./models/otp.model");
@@ -233,8 +234,19 @@ app.get("/user/:id", async (req, res) => {
 //   }
 // })
 
-mongoose.connect("mongodb://127.0.0.1:27017/zippos").then(() => {
-  app.listen(8000, () => {
-    console.log("server started on port 8080");
-  });
+// mongoose.connect("mongodb://127.0.0.1:27017/zippos").then(() => {
+//   app.listen(8000, () => {
+//     console.log("server started on port 8080");
+//   });
+// });
+
+
+app.listen(8000, async () => {
+  try{
+      await connect();
+      console.log(`Listening at http://localhost:8000`);
+  }
+  catch({message}){
+      console.log(message);
+  }
 });
