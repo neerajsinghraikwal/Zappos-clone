@@ -1,4 +1,4 @@
-import { Button, Center, FormControl, FormLabel, Image, Input, Stack, Text } from '@chakra-ui/react';
+import { Button, Center, FormControl, FormLabel, Image, Input, Stack, Text, useToast } from '@chakra-ui/react';
 import axios from 'axios';
 import React from 'react'
 import { useState } from 'react';
@@ -13,11 +13,25 @@ let initial = {
 const Login = () => {
     const [user,setuser] =useState(initial)
     const navigate = useNavigate()
+    const toast = useToast()
 
     const myfun = async() => {
       try{
-        let res =  await axios.post("http://localhost:8080/login", user);
-        navigate("/")
+        let res =  await axios.post("http://localhost:8000/auth/login", user);
+        if(res.data === "Invalid Credentials"){
+          return (
+                toast({
+                  title: "Login Failed !",
+                  description: res.data,
+                  status: 'error',
+                  duration: 2000,
+                  isClosable: true,
+                  position: 'top',
+                })
+          )
+        }else{
+          navigate("/")
+        }
         console.log(res.data) 
       }catch(err){
         console.log(err)

@@ -12,12 +12,13 @@ require("dotenv").config();
 // const passport = require("passport");
 const OtpModel = require("./models/otp.model");
 const authRouter = require("./routes/auth.routes");
+const { default: Redis } = require("ioredis");
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
 
-app.use("/auth",authRouter);
+app.use("/auth", authRouter);
 
 // const transport = nodemailer.createTransport({
 //   host: "smtp.gmail.com.",
@@ -75,6 +76,14 @@ app.use("/auth",authRouter);
 //   }
 // });
 
+const redis = new Redis({
+  port: 17582, // Redis port
+  host: "redis-17582.c212.ap-south-1-1.ec2.cloud.redislabs.com", // Redis host
+  username: "default", // needs Redis >= 6
+  password: "D9n56mdVPczcQBbcQvpOvNOk6I2yVACY",
+  db: 0, // Defaults to 0
+});
+
 app.post("/forgotpassword/enteremail", async (req, res) => {
   const { email } = req.body;
   const emailExist = await UserModel.findOne({ email });
@@ -131,8 +140,6 @@ app.post("/verifyotp", async (req, res) => {
   }
 });
 
-
-
 app.use("/refresh", async (req, res) => {
   const refreshToken = req.headers["authorization"];
   if (!refreshToken) {
@@ -179,15 +186,27 @@ app.get("/user/:id", async (req, res) => {
   // if(blacklist.includes(token)){
   //   return res.send("token already expired")
   // }
-  try {
-    const verification = jwt.verify(token, "SECRET1234");
-    if (verification) {
-      const user = await UserModel.findOne({ _id: id });
-      return res.send(user);
+  redis.hgetall(`${id}`, async (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      if (Object.keys(result).length != 0) {
+        return res.send(result);
+      } else {
+        try {
+          const verification = jwt.verify(token, "SECRET1234");
+          if (verification.exp > new Date().getTime() ) {
+            const user = await UserModel.findOne({ _id: id });
+            redis.hmset("user._id", "token", token, "exp", verification.exp,"user", JSON.stringify(user))
+            return res.send({ user: user });
+          }
+        } catch (e) {
+          return res.send("invalid token");
+        }
+      }
+      // console.log(result);
     }
-  } catch (e) {
-    return res.send("invalid token");
-  }
+  });
 });
 
 // instructor

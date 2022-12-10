@@ -90,28 +90,28 @@ const login = async (req, res) => {
         "SECRET1234",
         { expiresIn: "7 days" }
         );
+        const refreshToken = jwt.sign({ id: user._id }, "REFRESHSECRET", {
+          expiresIn: "28 days",
+        });
         console.log(user._id)
         const verification = jwt.verify(token, "SECRET1234");
         console.log("verify",verification,verification.exp - verification.iat)
-        redis.hmset("user._id", "token", token, "exp", verification.exp)
+        redis.hmset("user._id", "token", token, "exp", verification.exp,"user", JSON.stringify(user))
         redis.hgetall("user._id", (err, result) => {
           if (err) {
-            console.error(err);
+            console.log(err);
           } else {
-            console.log(result.exp); // Prints "value"
+            console.log(JSON.parse(result.user))
           }
         });
-      const refreshToken = jwt.sign({ id: user._id }, "REFRESHSECRET", {
-        expiresIn: "28 days",
-      });
-      return res.send({ message: "Login Success", token, refreshToken });
+      return res.send({ message: "Login Success", token, refreshToken, "name":user.name, "email": user.email });
     } else {
       return res.send("Invalid Credentials");
     }
   } catch (err) {
     console.log(err);
   }
-}
+} 
 
 
 

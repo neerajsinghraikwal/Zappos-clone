@@ -17,13 +17,13 @@ import Navbar from "../Component/Navbar";
 import Footer from "../Component/Footer";
 import { Link } from "react-router-dom";
 
-const getdata = () => axios.get(" http://localhost:8080/products");
 
-const Products = () => {
+const KidProduct = () => {
   const [productdet, setProductDet] = useState([]);
   const [option, setOption] = useState(0);
   const [count,setCount]= useState(0);
-
+  
+  const getdata = () => axios.get(" http://localhost:8080/products");
   // useEffect(() => {
   //   getdata().then((res) => setProductDet(res.data));
   // }, []);
@@ -110,4 +110,4 @@ const Products = () => {
   );
 };
 
-export default Products;
+export default KidProduct;

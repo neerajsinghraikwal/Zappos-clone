@@ -3,7 +3,7 @@ import React from 'react'
 import Home from '../Pages/Home'
 import Login from '../Pages/Login'
 import Cart from '../Pages/Cart'
-import Products from '../Pages/Products'
+import Products from '../Pages/AllProducts'
 import SinglePageProduct from '../Pages/SinglePageProduct'
 import Register from '../Pages/Register'
 
