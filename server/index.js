@@ -8,7 +8,7 @@ const passport = require("./google_auth");
 const argon2 = require("argon2");
 const nodemailer = require("nodemailer");
 require("dotenv").config();
-const connect = require("./configs/db");
+const connect = require("./config/db");
 // const GoogleStrategy = require('passport-google-oauth20').Strategy;
 // const passport = require("passport");
 const OtpModel = require("./models/otp.model");
